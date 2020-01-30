@@ -5,7 +5,8 @@ import * as Yup from "yup";
 
 const OnboardingForm = (() => {
     return (
-
+        <>
+        </>
     );
 });
 
