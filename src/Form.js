@@ -3,13 +3,14 @@ import axios from "axios";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-
+// setting up our state and status
 const UserForm = ({ values, errors, touched, status }) => {
     const [users, setUsers] = useState([]);
     useEffect(() => {
         console.log("The status has changed:", status);
         status && setUsers(users => [...users, status]);
     }, [status]);
+    // rendering our form and previously submitted forms
     return (
         <div className="form-container">
             <Form>
@@ -61,13 +62,15 @@ const FormikUserForm = withFormik({
             termsOfService: props.termsOfService || false
         };
     },
+    // checking for proper form submissions
     validationSchema: Yup.object().shape({
         username: Yup.string().required("What's your name?"),
         email: Yup.string().email("Email not valid").required("Please submit your email"),
         password: Yup.string().min(8, "Password needs to be 8 or more characters").required("Double check that password"),
-        termsOfService: Yup.boolean().oneOf([true]).required("Please accept our Terms of Service before continuing")
+        termsOfService: Yup.boolean().oneOf([true], "Please accept our Terms of Service before continuing").required()
         // checkbox validation goes here
     }),
+    // sending form submission and receiving it back
     handleSubmit(values, { setStatus, resetForm }) {
         console.log("sending request", values);
         axios
